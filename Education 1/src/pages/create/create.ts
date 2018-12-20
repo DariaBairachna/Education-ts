@@ -17,20 +17,20 @@ class CreateComponent {
     let ageInput = (<HTMLInputElement>document.getElementById("age"));
     let emailInput = (<HTMLInputElement>document.getElementById("email"));
     var users = this.getUsers();
-    var user :IUser = {
-      Name:nameInput.value,
-      Age:parseFloat(ageInput.value),
-      Email:emailInput.value
+    var user: IUser = {
+      Name: nameInput.value,
+      Age: parseFloat(ageInput.value),
+      Email: emailInput.value
     };
-    var AgeValue = parseFloat(ageInput.value);
-    var EmailValue = emailInput.value;
-    let ValidateEmail = isValidEmailAddress(EmailValue);
+    var ageValue = parseFloat(ageInput.value);
+    var emailValue = emailInput.value;
+    let validateEmail = isValidEmailAddress(emailValue);
     if (nameInput.value == "") {
       alert("Name is empty!");
       return false;
     };
-    
-    if (isNaN(AgeValue)) {
+
+    if (isNaN(ageValue)) {
       alert("Age must be number!");
       return false;
     };
@@ -39,22 +39,22 @@ class CreateComponent {
       alert("Age is empty!");
       return false;
     };
-    
+
     if (emailInput.value == "") {
       alert("Email is empty!");
       return false;
     };
-    
-    function isValidEmailAddress(EmailValue) {
+
+    function isValidEmailAddress(emailValue) {
       var pattern = new RegExp(/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/);
-      var result = pattern.test(EmailValue)
-        return result;
-      }
-      if(ValidateEmail == false){
-        alert("Email invalid")
-        return false;
-      }
-      
+      var result = pattern.test(emailValue)
+      return result;
+    }
+    if (validateEmail == false) {
+      alert("Email invalid")
+      return false;
+    }
+
     users.push(user);
     localStorage.setItem("Users", JSON.stringify(users));
     nameInput.value = "";
