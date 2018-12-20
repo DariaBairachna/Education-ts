@@ -11,6 +11,12 @@ class CreateComponent {
     return users;
   }
 
+  public isValidEmailAddress(emailValue) {
+    var pattern = new RegExp(/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/);
+    var result = pattern.test(emailValue)
+    return result;
+  }
+
   public addUser() {
     debugger;
     let nameInput = (<HTMLInputElement>document.getElementById("name"));
@@ -24,7 +30,7 @@ class CreateComponent {
     };
     var ageValue = parseFloat(ageInput.value);
     var emailValue = emailInput.value;
-    let validateEmail = isValidEmailAddress(emailValue);
+    let validateEmail = this.isValidEmailAddress(emailValue);
     if (nameInput.value == "") {
       alert("Name is empty!");
       return false;
@@ -45,11 +51,6 @@ class CreateComponent {
       return false;
     };
 
-    function isValidEmailAddress(emailValue) {
-      var pattern = new RegExp(/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/);
-      var result = pattern.test(emailValue)
-      return result;
-    }
     if (validateEmail == false) {
       alert("Email invalid")
       return false;
