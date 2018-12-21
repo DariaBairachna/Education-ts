@@ -21,7 +21,3 @@ for ( i=0; i<result.length; i++){
   createNewUserElement.innerHTML =  "<div>" + result[i].Name + " " + result[i].Age  + " " + result[i].Email + "</div>";
   document.body.appendChild( createNewUserElement)  ;
 }
-// for (var i = 0; i < result.length; i++) {
-
-//     document.body.innerHTML = "<div>" + result[i] + "</div>";
-//   }
