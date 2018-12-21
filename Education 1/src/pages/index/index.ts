@@ -1,19 +1,25 @@
-class User {
-  public Name: string;
-  public Age: number;
-  public Email: string;
-  public Education: string;
-  constructor(Name: string, Age: number, Email: string, Education: string) {
-    this.Name = Name;
-    this.Age = Age;
-    this.Email = Email;
-    this.Education = Education;
+class IndexComponent {
+  constructor() {}
+  public getUser(): IUser[] {
+    var usersJson = localStorage.getItem("Users");
+    let users: IUser[] = [];
+    if (usersJson) {
+      users = JSON.parse(usersJson);
+    }
+
+    return users;
+  }
+  public outputUsers() {
+    let result = this.getUser();
+    let i;
+    for (i = 0; i < result.length; i++) {
+      let createNewUserElement = document.createElement("div");
+      createNewUserElement.innerHTML =
+        "<div>" + result[i].Name + " " + result[i].Age + " " + result[i].Email + "</div>";
+      document.body.appendChild(createNewUserElement);
+    }
   }
 }
-let andriy = new User("Andriy",23,"Andriy@gmail.com","KHNURE");
-let jon = new User("Jon",23,"Jon@gmail.com","KHPI");
-let oleg = new User("Oleg",23,"Oleg@gmail.com","KHNURE");
-let userList:User[] = [andriy,jon,oleg];
-for (var item of userList) {
-    console.log(item);
-}
+
+var indexvm = new IndexComponent();
+indexvm.outputUsers();

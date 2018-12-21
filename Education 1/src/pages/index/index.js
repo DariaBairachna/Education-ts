@@ -1,18 +1,25 @@
-var User = /** @class */ (function () {
-    function User(Name, Age, Email, Education) {
-        this.Name = Name;
-        this.Age = Age;
-        this.Email = Email;
-        this.Education = Education;
+var IndexComponent = /** @class */ (function () {
+    function IndexComponent() {
     }
-    return User;
+    IndexComponent.prototype.getUser = function () {
+        var usersJson = localStorage.getItem("Users");
+        var users = [];
+        if (usersJson) {
+            users = JSON.parse(usersJson);
+        }
+        return users;
+    };
+    IndexComponent.prototype.outputUsers = function () {
+        var result = this.getUser();
+        var i;
+        for (i = 0; i < result.length; i++) {
+            var createNewUserElement = document.createElement('div');
+            createNewUserElement.innerHTML = "<div>" + result[i].Name + " " + result[i].Age + " " + result[i].Email + "</div>";
+            document.body.appendChild(createNewUserElement);
+        }
+    };
+    return IndexComponent;
 }());
-var andriy = new User("Andriy", 23, "Andriy@gmail.com", "KHNURE");
-var jon = new User("Jon", 23, "Jon@gmail.com", "KHPI");
-var oleg = new User("Oleg", 23, "Oleg@gmail.com", "KHNURE");
-var userList = [andriy, jon, oleg];
-for (var _i = 0, userList_1 = userList; _i < userList_1.length; _i++) {
-    var item = userList_1[_i];
-    console.log(item);
-}
+var indexvm = new IndexComponent();
+indexvm.outputUsers();
 //# sourceMappingURL=index.js.map
