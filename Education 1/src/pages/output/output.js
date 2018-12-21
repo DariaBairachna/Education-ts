@@ -14,9 +14,11 @@ var IndexComponent = /** @class */ (function () {
 }());
 var indexvm = new IndexComponent();
 var result = indexvm.getUser();
-for (var _i = 0, result_1 = result; _i < result_1.length; _i++) {
-    var element = result_1[_i];
-    document.body.innerHTML = "<div>" + element.Age + " " + element.Name + " " + element.Email + "</div>";
+var i;
+for (i = 0; i < result.length; i++) {
+    var createNewUserElement = document.createElement('div');
+    createNewUserElement.innerHTML = "<div>" + result[i].Name + " " + result[i].Age + " " + result[i].Email + "</div>";
+    document.body.appendChild(createNewUserElement);
 }
 // for (var i = 0; i < result.length; i++) {
 //     document.body.innerHTML = "<div>" + result[i] + "</div>";
