@@ -1,5 +1,7 @@
 class IndexComponent {
-  constructor() {}
+  constructor() {
+    this.outputUsers();
+  }
   public getUser(): IUser[] {
     var usersJson = localStorage.getItem("Users");
     let users: IUser[] = [];
@@ -22,4 +24,4 @@ class IndexComponent {
 }
 
 var indexvm = new IndexComponent();
-indexvm.outputUsers();
+
