@@ -4,9 +4,8 @@ class IndexComponent {
   constructor() {
     this.getUser();
     this.outputUsers();
-    // this.compare();
-    // this.filterUsers()
   }
+
   public getUser(): IUser[] {
     var usersJson = localStorage.getItem("Users");
     if (usersJson) {
@@ -18,13 +17,13 @@ class IndexComponent {
     return this.users;
   }
 
-
   public createTable(){
     let createTable = document.createElement("div");
     document.body.appendChild(createTable);
     createTable.id = "table";
     return createTable;
   }
+
   public createTableRow(wrapperBlock, i){
     let createWrapElement = document.createElement("div");
     let userId = (createWrapElement.id = "user" + (i + 1));
@@ -50,44 +49,23 @@ class IndexComponent {
     }
   }
 
-  
-
   public compare(){
     let resultFilter = [];
     let filterInput = (<HTMLInputElement>document.getElementById("filter"));
     let compareValue = filterInput.value;
     document.body.removeChild(document.getElementById("table"));
-    // let createTable = document.createElement("div");
-    // document.body.appendChild(createTable);
-    // createTable.id = "table";
+
     let wrapperBlock = this.createTable();
     for (let  i = 0; i < this.users.length; i++) {
         var userString = this.users[i].Name + " " + this.users[i].Age + " " + this.users[i].Email;
         var newUserList = userString.indexOf(compareValue) != -1;
         if(newUserList == true){
-          let createWrapElement = document.createElement("div");
-      let userId = (createWrapElement.id = "user" + (i + 1));
-      let createNewUserElement = document.createElement("div");
-      let createButtonDelete = document.createElement("button");
-      let buttonId = (createButtonDelete.id = "deleteButton" + (i + 1));
-      createNewUserElement.innerHTML = this.users[i].Name + " " + this.users[i].Age + " " + this.users[i].Email;
-      createButtonDelete.innerHTML = "Delete";
-      createButtonDelete.setAttribute(
-        "onclick",
-        "indexvm.deleteUser('" + userId + "', " + i + " )"
-      );
-      wrapperBlock.appendChild(createWrapElement);
-      createWrapElement.appendChild(createNewUserElement);
-      createWrapElement.appendChild(createButtonDelete);
-      
-
-
+          this.createTableRow(wrapperBlock, i);
         }
     }
  
     return resultFilter;
   }
-
 
   public bubbleSort() {
     for (let i = 0; i < this.users.length - 1; i++) {
