@@ -1,46 +1,120 @@
 class IndexComponent {
+  users: IUser[] = [];
+
   constructor() {
+    this.getUser();
     this.outputUsers();
+    // this.compare();
+    // this.filterUsers()
   }
   public getUser(): IUser[] {
     var usersJson = localStorage.getItem("Users");
-    let users: IUser[] = [];
     if (usersJson) {
-      users = JSON.parse(usersJson);
+      this.users = JSON.parse(usersJson);
     }
-
-    return users;
+    if (this.users.length == 0) {
+      localStorage.removeItem("Users");
+    }
+    return this.users;
   }
+
+
+  public createTable(){
+    let createTable = document.createElement("div");
+    document.body.appendChild(createTable);
+    createTable.id = "table";
+    return createTable;
+  }
+  public createTableRow(wrapperBlock, i){
+    let createWrapElement = document.createElement("div");
+    let userId = (createWrapElement.id = "user" + (i + 1));
+    let createNewUserElement = document.createElement("div");
+    let createButtonDelete = document.createElement("button");
+    let buttonId = (createButtonDelete.id = "deleteButton" + (i + 1));
+    createNewUserElement.innerHTML = this.users[i].Name + " " + this.users[i].Age + " " + this.users[i].Email;
+    createButtonDelete.innerHTML = "Delete";
+    createButtonDelete.setAttribute(
+      "onclick",
+      "indexvm.deleteUser('" + userId + "', " + i + " )"
+    );
+    wrapperBlock.appendChild(createWrapElement);
+    createWrapElement.appendChild(createNewUserElement);
+    createWrapElement.appendChild(createButtonDelete);
+    
+  }
+
   public outputUsers() {
-    let result = this.getUser();
-    let i;
-    for (i = 0; i < result.length; i++) {
-      let createWrapElement = document.createElement("div");
-      let userId = createWrapElement.id = "user" + parseFloat(i+1);
+   let wrapperBlock = this.createTable();
+    for (let i = 0; i < this.users.length; i++) {
+      this.createTableRow(wrapperBlock, i);
+    }
+  }
+
+  
+
+  public compare(){
+    let resultFilter = [];
+    let filterInput = (<HTMLInputElement>document.getElementById("filter"));
+    let compareValue = filterInput.value;
+    document.body.removeChild(document.getElementById("table"));
+    // let createTable = document.createElement("div");
+    // document.body.appendChild(createTable);
+    // createTable.id = "table";
+    let wrapperBlock = this.createTable();
+    for (let  i = 0; i < this.users.length; i++) {
+        var userString = this.users[i].Name + " " + this.users[i].Age + " " + this.users[i].Email;
+        var newUserList = userString.indexOf(compareValue) != -1;
+        if(newUserList == true){
+          let createWrapElement = document.createElement("div");
+      let userId = (createWrapElement.id = "user" + (i + 1));
       let createNewUserElement = document.createElement("div");
-      let createButtonDelete = document.createElement("button"); 
-      let buttonId = createButtonDelete.id = "deleteButton" + parseFloat(i+1);
-      createNewUserElement.innerHTML = result[i].Name + " " + result[i].Age + " " + result[i].Email ;
+      let createButtonDelete = document.createElement("button");
+      let buttonId = (createButtonDelete.id = "deleteButton" + (i + 1));
+      createNewUserElement.innerHTML = this.users[i].Name + " " + this.users[i].Age + " " + this.users[i].Email;
       createButtonDelete.innerHTML = "Delete";
-      createButtonDelete.setAttribute("onclick", "indexvm.deleteUser()");
-      
-      // let deleteButton = document.getElementById(buttonId);
-      document.body.appendChild(createWrapElement);
+      createButtonDelete.setAttribute(
+        "onclick",
+        "indexvm.deleteUser('" + userId + "', " + i + " )"
+      );
+      wrapperBlock.appendChild(createWrapElement);
       createWrapElement.appendChild(createNewUserElement);
       createWrapElement.appendChild(createButtonDelete);
-     
+      
+
+
+        }
+    }
+ 
+    return resultFilter;
+  }
+
+
+  public bubbleSort() {
+    for (let i = 0; i < this.users.length - 1; i++) {
+      for (let j = 0; j < this.users.length - 1 - i; j++) {
+        let ageNumber = this.users[j].Age;
+        let ageNumberNext = this.users[j + 1].Age;
+        if (ageNumber > ageNumberNext) {
+          let upElement = this.users[j];
+          this.users[j] = this.users[j + 1];
+          this.users[j + 1] = upElement;
+        }
+      }
+    }
+    document.body.removeChild(document.getElementById("table"));
+    this.outputUsers();
+    return this.users;
+  }
+ 
+  public deleteUser(userId, index, buttonId) {
+    document.getElementById("table").removeChild(document.getElementById(userId));
+
+    if (this.users[index]) {
+      console.log(index);
+      this.users.splice(index, 1);
+      localStorage.setItem("Users", JSON.stringify(this.users));
     }
   }
-  public deleteUser(){
-    let parentElement = document.getElementById(userId);
-    
-
-
-  }
-
-
-
 }
 
 var indexvm = new IndexComponent();
-

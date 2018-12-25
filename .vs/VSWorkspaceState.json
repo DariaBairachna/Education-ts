@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Education 1",
+    "\\Education 1\\src",
+    "\\Education 1\\src\\pages",
+    "\\Education 1\\src\\pages\\index"
   ],
-  "SelectedNode": "\\.gitignore",
+  "SelectedNode": "\\Education 1\\src\\pages",
   "PreviewInSolutionExplorer": false
 }
