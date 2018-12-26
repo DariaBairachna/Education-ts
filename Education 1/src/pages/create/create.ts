@@ -1,5 +1,7 @@
 class CreateComponent {
+    
     constructor() {
+        this.generateId();
     }
 
     public getUsers(): IUser[] {
@@ -10,19 +12,26 @@ class CreateComponent {
         }
         return users;
     }
+
     public isValidEmailAddress(emailValue: string): boolean {
         var pattern = new RegExp(/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/);
         var result = pattern.test(emailValue)
         return result;
     }
 
-    public addUser() {
+    public generateId():string{
+        var idValue = Math.random().toString(10).substr(2, 9);
+        return idValue;
+    }
 
+    public addUser() {
+       
         let nameInput = (<HTMLInputElement>document.getElementById("name"));
         let ageInput = (<HTMLInputElement>document.getElementById("age"));
         let emailInput = (<HTMLInputElement>document.getElementById("email"));
         var users = this.getUsers();
         var user: IUser = {
+            Id:  this.generateId(),
             Name: nameInput.value,
             Age: parseFloat(ageInput.value),
             Email: emailInput.value

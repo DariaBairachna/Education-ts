@@ -1,22 +1,8 @@
-class IndexComponent {
-  users: IUser[] = [];
-
+class IndexComponent extends UserService {
+  users = super.getUsers();
   constructor() {
-    this.getUser();
+    super();
     this.outputUsers();
-  }
- 
-//create User
-
-  public getUser(): IUser[] {
-    var usersJson = localStorage.getItem("Users");
-    if (usersJson) {
-      this.users = JSON.parse(usersJson);
-    }
-    if (this.users.length == 0) {
-      localStorage.removeItem("Users");
-    }
-    return this.users;
   }
 
   public createTableUsers() {
@@ -26,28 +12,29 @@ class IndexComponent {
     return createTable;
   }
 
-  public createTableRow(wrapperBlock, i) {
+  public createTableRow(wrapperBlock: HTMLDivElement, user: IUser) {
     let createWrapElement = document.createElement("div");
-    let userId = createWrapElement.id = "user" + (i + 1);
+    let userId = (createWrapElement.id = user.Id);
     let createNewUserElement = document.createElement("div");
-    let userElementId = createNewUserElement.id = "person" + (i + 1);
     let createButtonDelete = document.createElement("button");
-    createNewUserElement.innerHTML = this.users[i].Name + " " + this.users[i].Age + " " + this.users[i].Email;
+    createNewUserElement.innerHTML = user.Name + " " + user.Age + " " + user.Email;
     createButtonDelete.innerHTML = "Delete";
-    createButtonDelete.setAttribute( "onclick", "indexvm.deleteUser('" + userId + "', '" + userElementId + "')");
+    createButtonDelete.setAttribute(
+      "onclick",
+      "indexvm.deleteUser('" + user.Id + "')"
+    );
     wrapperBlock.appendChild(createWrapElement);
     createWrapElement.appendChild(createNewUserElement);
     createWrapElement.appendChild(createButtonDelete);
+
   }
 
   public outputUsers() {
     let wrapperBlock = this.createTableUsers();
-    for (let i = 0; i < this.users.length; i++) {
-      this.createTableRow(wrapperBlock, i);
+    for (let user of this.users) {
+      this.createTableRow(wrapperBlock, user);
     }
   }
-
-//filter User
 
   public compare() {
     let newUserArrey = [];
@@ -59,19 +46,15 @@ class IndexComponent {
       let userString = this.users[i].Name + " " + this.users[i].Age + " " + this.users[i].Email;
       let findValue = userString.indexOf(compareValue) != -1;
       if (findValue == true) {
-        this.createTableRow(wrapperBlock, i);
+        this.createTableRow(wrapperBlock, this.users[i]);
         newUserArrey.push(userString);
       }
     }
-    console.log(newUserArrey);
     return newUserArrey;
-
   }
 
-//sort User
-
   public bubbleSort() {
-    for (let i = 0;  i < this.users.length - 1; i++) {
+    for (let i = 0; i < this.users.length - 1; i++) {
       for (let j = 0; j < this.users.length - 1 - i; j++) {
         let ageNumber = this.users[j].Age;
         let ageNumberNextUser = this.users[j + 1].Age;
@@ -84,28 +67,25 @@ class IndexComponent {
     }
     document.body.removeChild(document.getElementById("table"));
     let wrapperBlock = this.createTableUsers();
-    for (let i = 0; i < this.compare().length,  i < this.users.length; i++) {
-      this.createTableRow(wrapperBlock, i);
+    for (let i = 0; i < this.compare().length, i < this.users.length; i++) {
+      this.createTableRow(wrapperBlock, this.users[i]);
     }
     return this.users;
+    
   }
 
-//delete User
-
-
-  public deleteUser(userId, userElementId) {
+  public deleteUser(user: IUser) {
     let table = document.getElementById("table");
-    let getUserFromHTML = document.getElementById(userElementId).innerHTML;
-    for (let i = 0; i < this.users.length; i++) {
-      this.users = JSON.parse(localStorage.getItem("Users"));
-      let userString = this.users[i].Name + " " + this.users[i].Age + " " + this.users[i].Email;
-      if (userString == getUserFromHTML) {
-        table.removeChild(document.getElementById(userId));
-        userString.indexOf(userString);
-        this.users.splice(i, 1);
-        localStorage.setItem("Users", JSON.stringify(this.users));
+    let userId = user.toString();
+    table.removeChild(document.getElementById(userId));
+    super.getUsers();
+    for (let user of this.users) {
+      if(user.Id == userId){
+        var indexUser = this.users.indexOf(user);
       }
     }
+    this.users.splice(indexUser, 1);
+    this.addUser(this.users);
   }
 }
 

@@ -1,5 +1,6 @@
-interface IUser{
-    Name:string;
-    Email:string;
-    Age:number;
+interface IUser {
+  Id: string;
+  Name: string;
+  Email: string;
+  Age: number;
 }
