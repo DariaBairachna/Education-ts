@@ -28,13 +28,14 @@ class IndexComponent {
     let createWrapElement = document.createElement("div");
     let userId = (createWrapElement.id = "user" + (i + 1));
     let createNewUserElement = document.createElement("div");
+    let userElementId = (createNewUserElement.id = "person" + (i + 1));
     let createButtonDelete = document.createElement("button");
     let buttonId = (createButtonDelete.id = "deleteButton" + (i + 1));
     createNewUserElement.innerHTML = this.users[i].Name + " " + this.users[i].Age + " " + this.users[i].Email;
     createButtonDelete.innerHTML = "Delete";
     createButtonDelete.setAttribute(
       "onclick",
-      "indexvm.deleteUser('" + userId + "', " + i + " )"
+      "indexvm.deleteUser('" + userId + "', '"+ userElementId +"')"
     );
     wrapperBlock.appendChild(createWrapElement);
     createWrapElement.appendChild(createNewUserElement);
@@ -84,14 +85,21 @@ class IndexComponent {
     return this.users;
   }
  
-  public deleteUser(userId, index, buttonId) {
-    document.getElementById("table").removeChild(document.getElementById(userId));
+  public deleteUser(userId, userElementId ) {
+    let table = document.getElementById("table");
+    let getUserFromHTML = document.getElementById(userElementId).innerHTML;
+    for(let i = 0; i < this.users.length; i++ ){
+      this.users = JSON.parse(localStorage.getItem("Users"));
+      let userString = this.users[i].Name + " " + this.users[i].Age + " " + this.users[i].Email;
+      if(userString == getUserFromHTML){
+        table.removeChild(document.getElementById(userId));
+        userString.indexOf(userString)
+        this.users.splice(i, 1);
+        localStorage.setItem("Users", JSON.stringify(this.users));
+      }
+   
+    } 
 
-    if (this.users[index]) {
-      console.log(index);
-      this.users.splice(index, 1);
-      localStorage.setItem("Users", JSON.stringify(this.users));
-    }
   }
 }
 
