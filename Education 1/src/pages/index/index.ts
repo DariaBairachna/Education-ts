@@ -50,7 +50,7 @@ class IndexComponent {
 //filter User
 
   public compare() {
-    
+    let newUserArrey = [];
     let filterInput = <HTMLInputElement>document.getElementById("filter");
     let compareValue = filterInput.value;
     document.body.removeChild(document.getElementById("table"));
@@ -60,15 +60,18 @@ class IndexComponent {
       let findValue = userString.indexOf(compareValue) != -1;
       if (findValue == true) {
         this.createTableRow(wrapperBlock, i);
+        newUserArrey.push(userString);
       }
     }
+    console.log(newUserArrey);
+    return newUserArrey;
 
   }
 
 //sort User
 
   public bubbleSort() {
-    for (let i = 0; i < this.users.length - 1; i++) {
+    for (let i = 0;  i < this.users.length - 1; i++) {
       for (let j = 0; j < this.users.length - 1 - i; j++) {
         let ageNumber = this.users[j].Age;
         let ageNumberNextUser = this.users[j + 1].Age;
@@ -80,7 +83,10 @@ class IndexComponent {
       }
     }
     document.body.removeChild(document.getElementById("table"));
-    this.outputUsers();
+    let wrapperBlock = this.createTableUsers();
+    for (let i = 0; i < this.compare().length,  i < this.users.length; i++) {
+      this.createTableRow(wrapperBlock, i);
+    }
     return this.users;
   }
 
