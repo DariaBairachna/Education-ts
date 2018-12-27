@@ -16,7 +16,7 @@ class IndexComponent {
 
   public createTableRow(wrapperBlock: HTMLDivElement, user: IUser) {
     let createWrapElement = document.createElement("div");
-    let userId = (createWrapElement.id = user.Id);
+    createWrapElement.id = user.Id;
     let createNewUserElement = document.createElement("div");
     let createButtonDelete = document.createElement("button");
     createNewUserElement.innerHTML = user.Name + " " + user.Age + " " + user.Email;
