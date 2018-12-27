@@ -2,14 +2,12 @@ class UserService {
   constructor() {}
 
   public getUsers(): IUser[] {
-    var users;
+    var  users: IUser[] = [];
     var usersJson = localStorage.getItem("Users");
     if (usersJson) {
       users = JSON.parse(usersJson);
     }
-    if (users.length == 0) {
-      localStorage.removeItem("Users");
-    }
+  
     return users;
   }
 
@@ -18,3 +16,6 @@ class UserService {
   }
  
 }
+// if (users.length == 0) {
+//   localStorage.removeItem("Users");
+// }

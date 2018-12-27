@@ -1,17 +1,18 @@
-class CreateComponent {
-    
+class CreateComponent extends UserService {
+   
     constructor() {
+        super();
         this.generateId();
     }
 
-    public getUsers(): IUser[] {
-        var usersJson = localStorage.getItem("Users");
-        let users: IUser[] = [];
-        if (usersJson) {
-            users = JSON.parse(usersJson);
-        }
-        return users;
-    }
+    // public getUsers(): IUser[] {
+    //     var usersJson = localStorage.getItem("Users");
+    //    let  users: IUser[] = [];
+    //     if (usersJson) {
+    //         users = JSON.parse(usersJson);
+    //     }
+    //     return users;
+    // }
 
     public isValidEmailAddress(emailValue: string): boolean {
         var pattern = new RegExp(/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/);
@@ -29,7 +30,7 @@ class CreateComponent {
         let nameInput = (<HTMLInputElement>document.getElementById("name"));
         let ageInput = (<HTMLInputElement>document.getElementById("age"));
         let emailInput = (<HTMLInputElement>document.getElementById("email"));
-        var users = this.getUsers();
+        let users = super.getUsers();
         var user: IUser = {
             Id:  this.generateId(),
             Name: nameInput.value,
@@ -65,7 +66,7 @@ class CreateComponent {
         }
 
         users.push(user);
-        localStorage.setItem("Users", JSON.stringify(users));
+        super. addUser(users)
         nameInput.value = "";
         ageInput.value = "";
         emailInput.value = "";
