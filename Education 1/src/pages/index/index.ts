@@ -1,7 +1,9 @@
-class IndexComponent extends UserService {
-  users = super.getUsers();
+class IndexComponent {
+  public userService: UserService;
+  public users: IUser[];
   constructor() {
-    super();
+    this.userService = new UserService();
+    this.users = this.userService.getUsers();
     this.outputUsers();
   }
 
@@ -78,14 +80,14 @@ class IndexComponent extends UserService {
     let table = document.getElementById("table");
     let userId = user.toString();
     table.removeChild(document.getElementById(userId));
-    super.getUsers();
+    this.userService.getUsers()
     for (let user of this.users) {
       if(user.Id == userId){
         var indexUser = this.users.indexOf(user);
       }
     }
     this.users.splice(indexUser, 1);
-    this.addUser(this.users);
+    this.userService.addUser(this.users);
   }
 }
 

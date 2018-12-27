@@ -1,18 +1,9 @@
-class CreateComponent extends UserService {
-   
+class CreateComponent{
+    public userService: UserService;
     constructor() {
-        super();
+        this.userService = new UserService();
         this.generateId();
     }
-
-    // public getUsers(): IUser[] {
-    //     var usersJson = localStorage.getItem("Users");
-    //    let  users: IUser[] = [];
-    //     if (usersJson) {
-    //         users = JSON.parse(usersJson);
-    //     }
-    //     return users;
-    // }
 
     public isValidEmailAddress(emailValue: string): boolean {
         var pattern = new RegExp(/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/);
@@ -30,7 +21,7 @@ class CreateComponent extends UserService {
         let nameInput = (<HTMLInputElement>document.getElementById("name"));
         let ageInput = (<HTMLInputElement>document.getElementById("age"));
         let emailInput = (<HTMLInputElement>document.getElementById("email"));
-        let users = super.getUsers();
+        let users = this.userService.getUsers();
         var user: IUser = {
             Id:  this.generateId(),
             Name: nameInput.value,
@@ -66,7 +57,7 @@ class CreateComponent extends UserService {
         }
 
         users.push(user);
-        super. addUser(users)
+        this.userService.addUser(users)
         nameInput.value = "";
         ageInput.value = "";
         emailInput.value = "";
